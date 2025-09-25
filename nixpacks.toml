@@ -1,0 +1,5 @@
+[phases.build]
+cmds = ["dotnet restore", "dotnet build -c Release"]
+
+[phases.start]
+cmd = "dotnet run -c Release --no-build"
