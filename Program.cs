@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración específica para Railway
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
-// Configure logging
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
+// Configuración de puertos - Railway usa PORT, desarrollo usa launchSettings
+if (Environment.GetEnvironmentVariable("PORT") != null)
+{
+    // En Railway
+    var port = Environment.GetEnvironmentVariable("PORT");
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+// En desarrollo local, usar launchSettings.json (no configurar URLs manualmente)
 
 // Add services to the container.
 builder.Services.AddControllers();
