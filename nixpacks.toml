@@ -1,5 +1,18 @@
+[providers]
+dotnet = "8.0"
+
+[phases.setup]
+nixPkgs = ["dotnet-sdk_8"]
+
 [phases.build]
-cmds = ["dotnet restore", "dotnet build -c Release"]
+cmds = [
+  "dotnet restore --disable-parallel",
+  "dotnet build -c Release --no-restore",
+  "dotnet publish -c Release --no-build -o out"
+]
 
 [phases.start]
-cmd = "dotnet run -c Release --no-build"
+cmd = "dotnet out/backend.dll"
+
+[variables]
+DOTNET_ROOT = "/nix/store/*-dotnet-sdk-8.*/bin"
